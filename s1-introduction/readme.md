@@ -21,6 +21,12 @@ In the cli:
 ```
    solana-test-validator
 ```
+Update the solanaRpc in `wallet.ts`
+```
+const solanaRpc = 'https://api.devnet.solana.com';
+or 
+const solanaRpc = "http://127.0.0.1:8899"
+```
 
 ### Run the project
 
