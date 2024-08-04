@@ -8,7 +8,7 @@ import {
 } from "@solana/web3.js";
 import fs from "fs";
 
-// TODO: update the RPC URL to the the desired network 
+// TODO: update the RPC URL to the the desired network
 // const solanaRpc = 'https://api.devnet.solana.com';
 const solanaRpc = "http://127.0.0.1:8899";
 
