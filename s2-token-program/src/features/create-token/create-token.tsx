@@ -95,16 +95,16 @@ export default function CreateToken() {
 
   const createMintOutputs = [
     {
-      title: 'Token Mint Address',
+      title: "Token Mint Address",
       dependency: mintAddr!,
       href: `https://explorer.solana.com/address/${mintAddr}?cluster=devnet`,
     },
     {
-      title: 'Decimals',
+      title: "Decimals",
       dependency: mintDecimal,
     },
     {
-      title: 'Transaction Signature',
+      title: "Transaction Signature",
       dependency: mintTx,
       href: `https://explorer.solana.com/tx/${mintTx}?cluster=devnet`,
     },
