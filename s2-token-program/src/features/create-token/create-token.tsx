@@ -95,18 +95,18 @@ export default function CreateToken() {
 
   const createMintOutputs = [
     {
-      title: "Token Mint Address...",
+      title: 'Token Mint Address',
       dependency: mintAddr!,
       href: `https://explorer.solana.com/address/${mintAddr}?cluster=devnet`,
     },
     {
-      title: "Transaction Signature...",
-      dependency: mintTx,
-      href: `https://explorer.solana.com/tx/${mintTx}?cluster=devnet`,
+      title: 'Decimals',
+      dependency: mintDecimal,
     },
     {
-      title: "Decimals...",
-      dependency: mintDecimal,
+      title: 'Transaction Signature',
+      dependency: mintTx,
+      href: `https://explorer.solana.com/tx/${mintTx}?cluster=devnet`,
     },
   ];
 
@@ -152,7 +152,7 @@ export default function CreateToken() {
                   className={`flex justify-between items-center ${index !== 0 && "mt-4"}`}
                 >
                   <p className="tracking-wider">{title}</p>
-                  {title !== "Decimals..."
+                  {title !== "Decimals"
                     ? dependency && (
                         <a
                           href={href}

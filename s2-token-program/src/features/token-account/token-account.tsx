@@ -29,16 +29,7 @@ export default function TokenAccount({
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
 
-  const [tokenBalance, setTokenBalance] = React.useState("0");
-
-  const [mintAmount, setMintAmount] = React.useState(0);
-  const [burnAmount, setBurnAmount] = React.useState(0);
-
-  const [delegatePublicKeyStr, setDelegatePublicKeyStr] = React.useState("");
-  const [delegateAmount, setDelegateAmount] = React.useState(0);
-
-  const [transferToAddr, setTransferToAddr] = React.useState("");
-  const [transferAmount, setTransferAmount] = React.useState(0);
+  const [signature, setSignature] = React.useState('');
 
   const [mint, setMint] = React.useState<web3.PublicKey | undefined>(undefined);
   const [owner, setOwner] = React.useState<web3.PublicKey | undefined>(
@@ -48,6 +39,7 @@ export default function TokenAccount({
     undefined,
   );
   const [account, setAccount] = React.useState<Account | undefined>(undefined);
+
   // error handling; is wallet connected?
   const connectionErr = () => {
     if (!publicKey || !connection) {
@@ -92,6 +84,7 @@ export default function TokenAccount({
           ),
         );
         const signature = await sendTransaction(transaction, connection);
+        setSignature(signature)
         console.log("Transaction signature:", signature);
 
         const {
@@ -121,138 +114,21 @@ export default function TokenAccount({
     }
   };
 
-  const mintToken = async (event: { preventDefault: () => void }) => {
-    // prevents page from refreshing
-    event.preventDefault();
-
-    // checks if wallet is connected
-    if (connectionErr()) {
-      return;
-    }
-    try {
-      const transaction = new web3.Transaction().add(
-        createMintToCheckedInstruction(
-          mintAddress, // mint
-          account?.address!, // receiver (should be a token account)
-          publicKey!, // mint authority
-          mintAmount,
-          2, // decimals
-        ),
-      );
-      const signature = await sendTransaction(transaction, connection);
-      console.log("Transaction signature:", signature);
-
-      const {
-        context: { slot: minContextSlot },
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-
-      // wait for confirmation
-      await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature,
-      });
-
-      toast.success("Mint token success!");
-
-      // fetch supply
-      let tokenAmount = await connection.getTokenAccountBalance(
-        account?.address!,
-      );
-      setTokenBalance(
-        Number(
-          Number(tokenAmount.value.amount) /
-            Math.pow(10, tokenAmount.value.decimals),
-        ).toFixed(tokenAmount.value.decimals),
-      );
-
-      toast.success("Mint txns confirmed! Supply updated");
-    } catch (error) {
-      console.error(error);
-      toast.error("Mint token failed.");
-    }
-  };
-
-  const burnToken = async (event: { preventDefault: () => void }) => {
-    // prevents page from refreshing
-    event.preventDefault();
-
-    // checks if wallet is connected
-    if (connectionErr()) {
-      return;
-    }
-    try {
-      const transaction = new web3.Transaction().add(
-        createBurnCheckedInstruction(
-          account?.address!, // receiver (should be a token account)
-          mintAddress, // mint
-          publicKey!, // owner of token account
-          burnAmount,
-          2, // decimals
-        ),
-      );
-      const signature = await sendTransaction(transaction, connection);
-      console.log("Transaction signature:", signature);
-
-      const {
-        context: { slot: minContextSlot },
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-
-      // wait for confirmation
-      await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature,
-      });
-
-      toast.success("Burn token success!");
-
-      // fetch supply
-      let tokenAmount = await connection.getTokenAccountBalance(
-        account?.address!,
-      );
-      setTokenBalance(
-        Number(
-          Number(tokenAmount.value.amount) /
-            Math.pow(10, tokenAmount.value.decimals),
-        ).toFixed(tokenAmount.value.decimals),
-      );
-
-      toast.success("Burn txns confirmed! Supply updated");
-    } catch (error) {
-      console.error(error);
-      toast.error("Burn token failed.");
-    }
-  };
-
   const tokenAccountOutputs = [
     {
-      title: "Owner...",
+      title: 'Owner',
       dependency: owner,
       href: `https://explorer.solana.com/address/${owner}?cluster=devnet`,
     },
     {
-      title: "Mint...",
+      title: 'Mint',
       dependency: mint,
       href: `https://explorer.solana.com/address/${mint}?cluster=devnet`,
     },
     {
-      title: "Delegate...",
-      dependency: delegate,
-    },
-  ];
-
-  const mintTokenOutputs = [
-    {
-      title: "Token Address...",
-      dependency: mintAddress,
-      href: `https://explorer.solana.com/address/${mintAddress}?cluster=devnet`,
-    },
-    {
-      title: "Supply...",
-      dependency: tokenBalance!,
+      title: 'Transaction Signature',
+      dependency: signature,
+      href: `https://explorer.solana.com/tx/${signature}?cluster=devnet`,
     },
   ];
 
@@ -286,7 +162,9 @@ export default function TokenAccount({
                     rel='noopener noreferrer'
                     className='flex text-[#80ebff] italic hover:text-white transition-all duration-200'
                   >
-                    {dependency.toString()}
+                    {title !== 'Transaction Signature'
+                      ? dependency.toString()
+                      : `${dependency.toString().slice(0, 25)}...`}
                     <FaExternalLinkAlt className='w-5 ml-1' />
                   </a>
                 )}

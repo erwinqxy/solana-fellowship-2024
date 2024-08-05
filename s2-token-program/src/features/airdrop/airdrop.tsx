@@ -52,7 +52,7 @@ export default function Airdrop() {
       href: `https://explorer.solana.com/address/${publicKey}?cluster=devnet`,
     },
     {
-      title: "Transaction Signature...",
+      title: "Transaction Signature",
       dependency: airdropTx,
       href: `https://explorer.solana.com/tx/${airdropTx}?cluster=devnet`,
     },
