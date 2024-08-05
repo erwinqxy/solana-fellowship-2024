@@ -11,6 +11,11 @@ import {
   createMintToCheckedInstruction,
   Account,
   createBurnCheckedInstruction,
+  createApproveCheckedInstruction,
+  createRevokeInstruction,
+  createTransferCheckedInstruction,
+  createTransferInstruction,
+  TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { FaExternalLinkAlt } from "react-icons/fa";
 
@@ -26,6 +31,12 @@ export default function TokenAccount({
 
   const [mintAmount, setMintAmount] = React.useState(0);
   const [burnAmount, setBurnAmount] = React.useState(0);
+
+  const [delegatePublicKeyStr, setDelegatePublicKeyStr] = React.useState("");
+  const [delegateAmount, setDelegateAmount] = React.useState(0);
+
+  const [transferToAddr, setTransferToAddr] = React.useState("");
+  const [transferAmount, setTransferAmount] = React.useState(0);
 
   const [mint, setMint] = React.useState<web3.PublicKey | undefined>(undefined);
   const [owner, setOwner] = React.useState<web3.PublicKey | undefined>(
@@ -60,7 +71,6 @@ export default function TokenAccount({
         publicKey!,
       );
       let fetchAccount = await getAccount(connection, associatedToken);
-      toast.success("Create Token success!");
       console.log(fetchAccount);
     } catch (error) {
       if (
@@ -79,11 +89,22 @@ export default function TokenAccount({
             mintAddress, // mint
           ),
         );
-        await sendTransaction(transaction, connection);
-        // toast.success('Created a new ATA');
+        const signature = await sendTransaction(transaction, connection);
+        console.log("Transaction signature:", signature);
+
+        const {
+          context: { slot: minContextSlot },
+          value: { blockhash, lastValidBlockHeight },
+        } = await connection.getLatestBlockhashAndContext();
+
+        // wait for confirmation
+        await connection.confirmTransaction({
+          blockhash,
+          lastValidBlockHeight,
+          signature,
+        });
+        toast.success("Created a new ATA");
       }
-      toast.error("Error creating Token Mint. Please try again.");
-      console.log("error", error);
     } finally {
       const associatedToken = await getAssociatedTokenAddress(
         mintAddress,
@@ -113,8 +134,8 @@ export default function TokenAccount({
           account?.address!, // receiver (should be a token account)
           publicKey!, // mint authority
           mintAmount,
-          2 // decimals
-        )
+          2, // decimals
+        ),
       );
       const signature = await sendTransaction(transaction, connection);
       console.log("Transaction signature:", signature);
@@ -124,6 +145,58 @@ export default function TokenAccount({
         value: { blockhash, lastValidBlockHeight },
       } = await connection.getLatestBlockhashAndContext();
 
+      // wait for confirmation
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
+
+      toast.success("Mint token success!");
+
+      // fetch supply
+      let tokenAmount = await connection.getTokenAccountBalance(
+        account?.address!,
+      );
+      setTokenBalance(
+        Number(
+          Number(tokenAmount.value.amount) /
+            Math.pow(10, tokenAmount.value.decimals),
+        ).toFixed(tokenAmount.value.decimals),
+      );
+
+      toast.success("Mint txns confirmed! Supply updated");
+    } catch (error) {
+      console.error(error);
+      toast.error("Mint token failed.");
+    }
+  };
+
+  const burnToken = async (event: { preventDefault: () => void }) => {
+    // prevents page from refreshing
+    event.preventDefault();
+
+    // checks if wallet is connected
+    if (connectionErr()) {
+      return;
+    }
+    try {
+      const transaction = new web3.Transaction().add(
+        createBurnCheckedInstruction(
+          account?.address!, // receiver (should be a token account)
+          mintAddress, // mint
+          publicKey!, // owner of token account
+          burnAmount,
+          2, // decimals
+        ),
+      );
+      const signature = await sendTransaction(transaction, connection);
+      console.log("Transaction signature:", signature);
+
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext();
 
       // wait for confirmation
       await connection.confirmTransaction({
@@ -132,72 +205,170 @@ export default function TokenAccount({
         signature,
       });
 
-      toast.success('Mint token success!');
+      toast.success("Burn token success!");
 
-      // fetch supply 
-      let tokenAmount = await connection.getTokenAccountBalance(account?.address!);
+      // fetch supply
+      let tokenAmount = await connection.getTokenAccountBalance(
+        account?.address!,
+      );
       setTokenBalance(
         Number(
-          Number(tokenAmount.value.amount) / Math.pow(10, tokenAmount.value.decimals)
-        ).toFixed(tokenAmount.value.decimals)
+          Number(tokenAmount.value.amount) /
+            Math.pow(10, tokenAmount.value.decimals),
+        ).toFixed(tokenAmount.value.decimals),
       );
 
-      toast.success('Mint txns confirmed! Supply updated');
+      toast.success("Burn txns confirmed! Supply updated");
     } catch (error) {
       console.error(error);
-      toast.error("Mint token failed.");
+      toast.error("Burn token failed.");
     }
   };
 
-    const burnToken = async (event: { preventDefault: () => void }) => {
-      // prevents page from refreshing
-      event.preventDefault();
+  const delegateToken = async (event: { preventDefault: () => void }) => {
+    // prevents page from refreshing
+    event.preventDefault();
 
-      // checks if wallet is connected
-      if (connectionErr()) {
-        return;
-      }
-      try {
-        const transaction = new web3.Transaction().add(
-          createBurnCheckedInstruction(
-            account?.address!, // receiver (should be a token account)
-            mintAddress, // mint
-            publicKey!, // owner of token account
-            burnAmount,
-            2 // decimals
-          )
-        );
-        const signature = await sendTransaction(transaction, connection);
-        console.log('Transaction signature:', signature);
+    // checks if wallet is connected
+    if (connectionErr()) {
+      return;
+    }
+    try {
+      const transaction = new web3.Transaction().add(
+        createApproveCheckedInstruction(
+          account?.address!, // token account
+          mintAddress, // mint
+          new web3.PublicKey(delegatePublicKeyStr), // delegate
+          publicKey!, // owner of token account
+          delegateAmount,
+          2, // decimals
+        ),
+      );
+      const signature = await sendTransaction(transaction, connection);
+      console.log("Transaction signature:", signature);
 
-        const {
-          context: { slot: minContextSlot },
-          value: { blockhash, lastValidBlockHeight },
-        } = await connection.getLatestBlockhashAndContext();
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext();
 
-        // wait for confirmation
-        await connection.confirmTransaction({
-          blockhash,
-          lastValidBlockHeight,
-          signature,
-        });
+      // wait for confirmation
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
 
-        toast.success('Burn token success!');
+      toast.success("Delegate toke success!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Delegate token failed.");
+    }
+  };
 
-        // fetch supply
-        let tokenAmount = await connection.getTokenAccountBalance(account?.address!);
-        setTokenBalance(
-          Number(
-            Number(tokenAmount.value.amount) / Math.pow(10, tokenAmount.value.decimals)
-          ).toFixed(tokenAmount.value.decimals)
-        );
+  const unDelegateToken = async (event: { preventDefault: () => void }) => {
+    // prevents page from refreshing
+    event.preventDefault();
 
-        toast.success('Burn txns confirmed! Supply updated');
-      } catch (error) {
-        console.error(error);
-        toast.error('Burn token failed.');
-      }
-    };
+    // checks if wallet is connected
+    if (connectionErr()) {
+      return;
+    }
+    try {
+      const transaction = new web3.Transaction().add(
+        createRevokeInstruction(
+          account?.address!, // token account
+          publicKey!, // owner of token account
+        ),
+      );
+      const signature = await sendTransaction(transaction, connection);
+      console.log("Transaction signature:", signature);
+
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext();
+
+      // wait for confirmation
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
+
+      toast.success("Revoke delegate token success!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Revoke delegate token failed.");
+    }
+  };
+
+  const transferToken = async (event: { preventDefault: () => void }) => {
+    // prevents page from refreshing
+    event.preventDefault();
+
+    // checks if wallet is connected
+    if (connectionErr()) {
+      return;
+    }
+    try {
+      const desintationPk = new web3.PublicKey(transferToAddr)!
+      const associatedToken = await getAssociatedTokenAddress(
+        mintAddress,
+        desintationPk!,
+      );
+
+      //  create the token account for the desintation 
+      const transaction1 = new web3.Transaction().add(
+        createAssociatedTokenAccountInstruction(
+          publicKey!, //payer
+          associatedToken, // associatedToken
+          desintationPk, // destination address 
+          mintAddress // mint
+        )
+      );
+
+      let signature = await sendTransaction(transaction1, connection);
+      console.log('Transaction signature:', signature);
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext();
+
+      // wait for confirmation
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
+
+      const fetchedAccount = await getAccount(connection, associatedToken);
+      const transaction = new web3.Transaction().add(
+        createTransferCheckedInstruction(
+          account?.address!, // from (should be a token account)
+          mintAddress, // mint
+          fetchedAccount.address, // to (should be a token account)
+          publicKey!, // from's owner
+          transferAmount, // amount, if your deciamls is 8, send 10^8 for 1 token
+          2 // decimals
+        )
+      );
+
+      signature = await sendTransaction(transaction, connection);
+      console.log('Transaction signature:', signature);
+
+      // wait for confirmation
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
+      toast.success("Transfer token success!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Transfer token failed.");
+    }
+  };
 
   const tokenAccountOutputs = [
     {
@@ -225,6 +396,18 @@ export default function TokenAccount({
     {
       title: "Supply...",
       dependency: tokenBalance!,
+    },
+  ];
+
+  const delegateTokenOutputs = [
+    {
+      title: "Delegate's Address...",
+      dependency: delegatePublicKeyStr,
+      href: `https://explorer.solana.com/address/${mintAddress}?cluster=devnet`,
+    },
+    {
+      title: "Delegate Amount",
+      dependency: delegateAmount!,
     },
   ];
 
@@ -374,6 +557,169 @@ export default function TokenAccount({
             ))}
           </ul>
         </div>
+      </form>
+
+      <form
+        onSubmit={(event) => delegateToken(event)}
+        className='rounded-lg min-h-content bg-[#2a302f] p-4 sm:col-span-6 lg:col-start-2 lg:col-end-6'
+      >
+        <div className='flex justify-between items-center'>
+          <h2 className='text-lg sm:text-2xl font-semibold'>Delegate Token 🏂</h2>
+          <button
+            type='submit'
+            className='bg-helius-orange rounded-lg py-1 sm:py-2 px-4 font-semibold transition-all duration-200 border-2 border-transparent hover:border-helius-orange disabled:opacity-50 disabled:hover:bg-helius-orange hover:bg-transparent disabled:cursor-not-allowed'
+          >
+            Submit
+          </button>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignContent: 'space-between',
+          }}
+        >
+          <label
+            style={{ paddingRight: '10px' }}
+            htmlFor='delegate-pk'
+            className='block mb-2 text-green-400'
+          >
+            Delegate's public key:
+          </label>
+          <input
+            style={{ background: 'grey' }}
+            id='delegate-pk'
+            name='delegate-pk'
+            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
+            placeholder="Delegate's public key"
+            onChange={(e) => setDelegatePublicKeyStr(e.target.value)}
+            required
+          />
+          <label
+            style={{ paddingLeft: '10px', paddingRight: '10px' }}
+            htmlFor='delegate-pk'
+            className='block mb-2 text-green-400'
+          >
+            Delegate Amount:
+          </label>
+          <input
+            style={{ background: 'grey' }}
+            id='delegate-pk'
+            name='delegate-pk'
+            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
+            placeholder="Delegate's public key"
+            onChange={(e) => setDelegateAmount(Number(e.target.value))}
+            required
+          />
+        </div>
+
+        <div className='text-sm font-semibold mt-8 bg-[#222524] border-2 border-gray-500 rounded-lg p-2'>
+          <ul className='p-2'>
+            {delegateTokenOutputs.map(({ title, dependency }, index) => (
+              <li
+                key={title}
+                className={`flex justify-between items-center ${index !== 0 && 'mt-4'}`}
+              >
+                <p className='tracking-wider'>{title}</p>
+                {dependency && dependency.toString()}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </form>
+
+      <form
+        onSubmit={(event) => unDelegateToken(event)}
+        className='rounded-lg min-h-content bg-[#2a302f] p-4 sm:col-span-6 lg:col-start-2 lg:col-end-6'
+      >
+        <div className='flex justify-between items-center'>
+          <h2 className='text-lg sm:text-2xl font-semibold'>Revoke Delegate Token 🏂</h2>
+          <button
+            type='submit'
+            className='bg-helius-orange rounded-lg py-1 sm:py-2 px-4 font-semibold transition-all duration-200 border-2 border-transparent hover:border-helius-orange disabled:opacity-50 disabled:hover:bg-helius-orange hover:bg-transparent disabled:cursor-not-allowed'
+          >
+            Submit
+          </button>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignContent: 'space-between',
+          }}
+        ></div>
+      </form>
+
+      <form
+        onSubmit={(event) => transferToken(event)}
+        className='rounded-lg min-h-content bg-[#2a302f] p-4 sm:col-span-6 lg:col-start-2 lg:col-end-6'
+      >
+        <div className='flex justify-between items-center'>
+          <h2 className='text-lg sm:text-2xl font-semibold'>Transfer to ✈️</h2>
+          <button
+            type='submit'
+            className='bg-helius-orange rounded-lg py-1 sm:py-2 px-4 font-semibold transition-all duration-200 border-2 border-transparent hover:border-helius-orange disabled:opacity-50 disabled:hover:bg-helius-orange hover:bg-transparent disabled:cursor-not-allowed'
+          >
+            Submit
+          </button>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignContent: 'space-between',
+          }}
+        >
+          <label
+            style={{ paddingRight: '10px' }}
+            htmlFor='transfer-pk'
+            className='block mb-2 text-green-400'
+          >
+            Transfer to public key:
+          </label>
+          <input
+            style={{ background: 'grey' }}
+            id='transfer-pk'
+            name='transfer-pk'
+            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
+            placeholder="Delegate's public key"
+            onChange={(e) => setTransferToAddr(e.target.value)}
+            required
+          />
+          <label
+            style={{ paddingRight: '10px' }}
+            htmlFor='transfer-amount'
+            className='block mb-2 text-green-400'
+          >
+            Transfer Amount:
+          </label>
+          <input
+            style={{ background: 'grey' }}
+            id='transfer-amount'
+            name='transfer-amount'
+            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
+            placeholder='Transfer amount'
+            onChange={(e) => setTransferAmount(Number(e.target.value))}
+            required
+          />
+        </div>
+
+        {/* <div className='text-sm font-semibold mt-8 bg-[#222524] border-2 border-gray-500 rounded-lg p-2'>
+          <ul className='p-2'> */}
+            {/* {delegateTokenOutputs.map(({ title, dependency }, index) => (
+              <li
+                key={title}
+                className={`flex justify-between items-center ${index !== 0 && "mt-4"}`}
+              >
+                <p className="tracking-wider">{title}</p>
+                {dependency && dependency.toString()}
+              </li>
+            ))} */}
+          {/* </ul>
+        </div> */}
       </form>
     </>
   );

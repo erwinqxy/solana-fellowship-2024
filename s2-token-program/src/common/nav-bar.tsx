@@ -9,8 +9,8 @@ import {
 
 export default function NavBar() {
   return (
-    <nav className='p-4 flex justify-around bg-zinc-800'>
-      <div style={{ paddingRight: '10px' }}>
+    <nav className="p-4 flex justify-around bg-zinc-800">
+      <div style={{ paddingRight: "10px" }}>
         <WalletMultiButton />
       </div>
       <div>
