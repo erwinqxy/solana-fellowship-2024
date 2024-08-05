@@ -1,6 +1,5 @@
 import React from "react";
 import * as web3 from "@solana/web3.js";
-import * as token from "@solana/spl-token";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { toast } from "react-toastify";
 import { FaExternalLinkAlt } from "react-icons/fa";
