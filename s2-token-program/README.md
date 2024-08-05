@@ -82,3 +82,9 @@ delegation: authorizing a different key to perform actions on an ata
 
 - max transfer amount can be specified in a delegation instruction to ensure that the authroized key cant transfer any more
 - delegations are risky
+
+Building a transaction
+- use `new Transaction().add({function})` to create a new transaction
+- then use `await sendAndConfirmTransaction` to send the transaction to the network and wait for confirmation
+- only then the transaction is considered complete / failed 
+- the signature of the first transaction is considered the transaction id
