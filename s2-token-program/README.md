@@ -6,9 +6,6 @@ Build a web UI that can handle creation of a token, it's mint, transfer of that 
 
 [Watch a quick demo here!](https://www.youtube.com/watch?v=9hHeW2GCR9w)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9hHeW2GCR9w" frameborder="0" allowfullscreen></iframe>
-
-
 ## Getting Started
 
 First, install the relevant packages:
