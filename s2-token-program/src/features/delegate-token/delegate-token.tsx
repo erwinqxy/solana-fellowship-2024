@@ -175,7 +175,7 @@ export default function DelegateToken({
             htmlFor="delegate-pk"
             className="block mb-2 text-green-400"
           >
-            Delegate's public key:
+            Delegate`s public key:
           </label>
           <input
             style={{ background: "grey" }}
