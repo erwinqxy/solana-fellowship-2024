@@ -26,9 +26,8 @@ export default function TransferToken({
   const [transferToAddr, setTransferToAddr] = React.useState("");
   const [transferAmount, setTransferAmount] = React.useState(0);
 
-    const [ataTxSig, setAtaTxSig] = React.useState('');
-  const [transferTxSig, setTransferTxSig] = React.useState('');
-
+  const [ataTxSig, setAtaTxSig] = React.useState("");
+  const [transferTxSig, setTransferTxSig] = React.useState("");
 
   // error handling; is wallet connected?
   const connectionErr = () => {
@@ -40,23 +39,22 @@ export default function TransferToken({
     }
   };
 
-    const transferOutput = [
-      {
-        title: 'Transfer Amount',
-        dependency: Number(
-          Number(transferAmount) / Math.pow(10, 2)).toFixed(2),
-      },
-      {
-        title: 'Create ATA Transaction Signature',
-        dependency: ataTxSig,
-        href: `https://explorer.solana.com/tx/${ataTxSig}?cluster=devnet`,
-      },
-      {
-        title: 'Transfer Transaction Signature',
-        dependency: transferTxSig,
-        href: `https://explorer.solana.com/tx/${transferTxSig}?cluster=devnet`,
-      },
-    ];
+  const transferOutput = [
+    {
+      title: "Transfer Amount",
+      dependency: Number(Number(transferAmount) / Math.pow(10, 2)).toFixed(2),
+    },
+    {
+      title: "Create ATA Transaction Signature",
+      dependency: ataTxSig,
+      href: `https://explorer.solana.com/tx/${ataTxSig}?cluster=devnet`,
+    },
+    {
+      title: "Transfer Transaction Signature",
+      dependency: transferTxSig,
+      href: `https://explorer.solana.com/tx/${transferTxSig}?cluster=devnet`,
+    },
+  ];
 
   const transferToken = async (event: { preventDefault: () => void }) => {
     // prevents page from refreshing
@@ -96,7 +94,7 @@ export default function TransferToken({
         );
 
         let signature = await sendTransaction(transaction1, connection);
-        setAtaTxSig(signature)
+        setAtaTxSig(signature);
         console.log("Transaction signature:", signature);
         const {
           context: { slot: minContextSlot },
@@ -131,7 +129,7 @@ export default function TransferToken({
       );
 
       const signature = await sendTransaction(transaction, connection);
-      setTransferTxSig(signature)
+      setTransferTxSig(signature);
       console.log("Transaction signature:", signature);
 
       const {
@@ -153,76 +151,76 @@ export default function TransferToken({
     <>
       <form
         onSubmit={(event) => transferToken(event)}
-        className='rounded-lg min-h-content bg-[#2a302f] p-4 sm:col-span-6 lg:col-start-2 lg:col-end-6'
+        className="rounded-lg min-h-content bg-[#2a302f] p-4 sm:col-span-6 lg:col-start-2 lg:col-end-6"
       >
-        <div className='flex justify-between items-center'>
-          <h2 className='text-lg sm:text-2xl font-semibold'>Transfer to ✈️</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg sm:text-2xl font-semibold">Transfer to ✈️</h2>
           <button
-            type='submit'
-            className='bg-helius-orange rounded-lg py-1 sm:py-2 px-4 font-semibold transition-all duration-200 border-2 border-transparent hover:border-helius-orange disabled:opacity-50 disabled:hover:bg-helius-orange hover:bg-transparent disabled:cursor-not-allowed'
+            type="submit"
+            className="bg-helius-orange rounded-lg py-1 sm:py-2 px-4 font-semibold transition-all duration-200 border-2 border-transparent hover:border-helius-orange disabled:opacity-50 disabled:hover:bg-helius-orange hover:bg-transparent disabled:cursor-not-allowed"
           >
             Submit
           </button>
         </div>
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignContent: 'space-between',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "space-between",
           }}
         >
           <label
-            style={{ paddingRight: '10px' }}
-            htmlFor='transfer-pk'
-            className='block mb-2 text-green-400'
+            style={{ paddingRight: "10px" }}
+            htmlFor="transfer-pk"
+            className="block mb-2 text-green-400"
           >
             Transfer to public key:
           </label>
           <input
-            style={{ background: 'grey' }}
-            id='transfer-pk'
-            name='transfer-pk'
-            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
+            style={{ background: "grey" }}
+            id="transfer-pk"
+            name="transfer-pk"
+            className="bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32"
             placeholder="Delegate's public key"
             onChange={(e) => setTransferToAddr(e.target.value)}
             required
           />
           <label
-            style={{ paddingRight: '10px' }}
-            htmlFor='transfer-amount'
-            className='block mb-2 text-green-400'
+            style={{ paddingRight: "10px" }}
+            htmlFor="transfer-amount"
+            className="block mb-2 text-green-400"
           >
             Transfer Amount:
           </label>
           <input
-            style={{ background: 'grey' }}
-            id='transfer-amount'
-            name='transfer-amount'
-            className='bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32'
-            placeholder='Transfer amount'
+            style={{ background: "grey" }}
+            id="transfer-amount"
+            name="transfer-amount"
+            className="bg-[#333638] border border-gray-600 rounded-lg text-white placeholder-gray-400 p-2 ml-2 w-32"
+            placeholder="Transfer amount"
             onChange={(e) => setTransferAmount(Number(e.target.value))}
             required
           />
         </div>
-        <div className='text-sm font-semibold mt-8 bg-[#222524] border-2 border-gray-500 rounded-lg p-2'>
-          <ul className='p-2'>
+        <div className="text-sm font-semibold mt-8 bg-[#222524] border-2 border-gray-500 rounded-lg p-2">
+          <ul className="p-2">
             {transferOutput.map(({ title, dependency, href }, index) => (
               <li
                 key={title}
-                className={`flex justify-between items-center ${index !== 0 && 'mt-4'}`}
+                className={`flex justify-between items-center ${index !== 0 && "mt-4"}`}
               >
-                <p className='tracking-wider'>{title}</p>
-                {title !== 'Transfer Amount'
+                <p className="tracking-wider">{title}</p>
+                {title !== "Transfer Amount"
                   ? dependency && (
                       <a
                         href={href}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='flex text-[#80ebff] italic hover:text-white transition-all duration-200'
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex text-[#80ebff] italic hover:text-white transition-all duration-200"
                       >
                         {dependency.toString().slice(0, 25)}...
-                        <FaExternalLinkAlt className='w-5 ml-1' />
+                        <FaExternalLinkAlt className="w-5 ml-1" />
                       </a>
                     )
                   : dependency && dependency}
