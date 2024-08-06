@@ -83,8 +83,36 @@ delegation: authorizing a different key to perform actions on an ata
 - max transfer amount can be specified in a delegation instruction to ensure that the authroized key cant transfer any more
 - delegations are risky
 
+Transactions 
+- They are atomic 
+- Each instruction contains:
+  - an array of accounts that will be read from and/or written to. This is what makes Solana fast - transactions that affect different accounts are processed simultaneously
+  - the public key of the program to invoke 
+  - data passed to the program being invoked, structured as a byte array
+
 Building a transaction
 - use `new Transaction().add({function})` to create a new transaction
 - then use `await sendAndConfirmTransaction` to send the transaction to the network and wait for confirmation
 - only then the transaction is considered complete / failed 
 - the signature of the first transaction is considered the transaction id
+
+```typescript
+const transaction = new Transaction();
+ 
+const sendSolInstruction = SystemProgram.transfer({
+  fromPubkey: sender,
+  toPubkey: recipient,
+  lamports: LAMPORTS_PER_SOL * amount,
+});
+ 
+transaction.add(sendSolInstruction);
+
+const signature = await web3.sendAndConfirmTransaction(
+  connection,
+  transaction,
+  [payer],
+);
+ 
+console.log(`✅ Success! Transaction signature is: ${signature}`);
+```
+

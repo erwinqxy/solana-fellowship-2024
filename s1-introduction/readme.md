@@ -18,13 +18,13 @@ Personally, I faced issues getting `Server responded with 429 Too Many Requests.
 
 In the cli:
 
-```
+```bash
    solana-test-validator
 ```
 
 Update the solanaRpc in `wallet.ts`
 
-```
+```typescript
 const solanaRpc = 'https://api.devnet.solana.com';
 or
 const solanaRpc = "http://127.0.0.1:8899"
@@ -32,7 +32,7 @@ const solanaRpc = "http://127.0.0.1:8899"
 
 ### Run the project
 
-```
+```bash
   bun run index.ts <feature>
 ```
 
@@ -40,7 +40,7 @@ const solanaRpc = "http://127.0.0.1:8899"
 
 1. Generate a new wallet: A command to generate a new wallet, and the keypair will be saved locally in the project directory as `keypair.json`.
 
-```
+```bash
   bun run index.ts generate
 ```
 
@@ -48,7 +48,7 @@ const solanaRpc = "http://127.0.0.1:8899"
 
 2. Get airdrop
 
-```
+```bash
   bun run index.ts airdrop <address> <amount>
 ```
 
@@ -56,7 +56,7 @@ const solanaRpc = "http://127.0.0.1:8899"
 
 3. Send sol to another address
 
-```
+```bash
   bun run index.ts send <keypath.json file path> <recipient_address> <amount>
 ```
 
@@ -64,7 +64,7 @@ const solanaRpc = "http://127.0.0.1:8899"
 
 4. Check balance
 
-```
+```bash
   bun run index.ts balance <address>
 ```
 
@@ -86,3 +86,51 @@ Some addresses to play with:
 5. Check balance of wallet A and B
 6. Send sol from wallet A to wallet B
 7. Check balance of wallet B
+
+## Learnings
+
+### Useful references:
+
+- [Solana web3.js](https://solana.com/docs/clients/javascript-reference)
+
+### Generating a keypair
+
+```typescript
+import { Keypair } from "@solana/web3.js";
+ 
+const keypair = Keypair.generate();
+ 
+console.log(`The public key is: `, keypair.publicKey.toBase58());
+console.log(`The secret key is: `, keypair.secretKey);
+```
+
+### Loading an existing keypair
+
+```typescript
+import "dotenv/config";
+import { getKeypairFromEnvironment } from "@solana-developers/helpers";
+ 
+const keypair = getKeypairFromEnvironment("SECRET_KEY");
+```
+
+### Connecting to the network
+
+```typescript
+import { Connection, clusterApiUrl } from "@solana/web3.js";
+ 
+const connection = new Connection(clusterApiUrl("devnet"));
+console.log(`✅ Connected!`);
+```
+ 
+### Reading from network 
+
+```typescript
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
+ 
+const connection = new Connection(clusterApiUrl("devnet"));
+const address = new PublicKey("CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN");
+const balance = await connection.getBalance(address);
+ 
+console.log(`The balance of the account at ${address} is ${balance} lamports`);
+console.log(`✅ Finished!`);
+```
