@@ -2,17 +2,7 @@
 
 Build an asset manager’s vault, where customers can deposit SPL tokens of their choice. The vault manager should not be able to withdraw the vault’s funds.
 
-Problem:
-
-Create a Solana smart contract using Anchor to manage a vault.
-Allow users to deposit and withdraw SPL tokens.
-Prevent the vault creator from withdrawing funds.
-Solution Approach:
-
-Use Anchor to define accounts and instructions for the vault.
-Store deposited token amounts and depositors in the vault account.
-Implement instructions for deposit and withdrawal, with appropriate checks.
-Ensure the vault creator's authority is restricted to prevent withdrawals.
+Deployed here: https://explorer.solana.com/address/8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn?cluster=devnet
 
 
 ## Anchor
@@ -56,5 +46,3 @@ pub struct Initialize {}
 # Useful Resources
 - [Anchor Docs](https://www.anchor-lang.com/docs/high-level-overview)
 - [Anchor Space Calculator](https://anchorspace.vercel.app/)
-
-Deployed here: https://explorer.solana.com/address/8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn?cluster=devnet
