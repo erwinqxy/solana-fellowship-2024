@@ -217,7 +217,7 @@ async function withdrawSOL(account: Keypair) {
 
 Here is the output of the client script after running the program:
 
-![Test the Program](/s4-onchain-introduction-native/images/test.png)
+![Test the Program](/s4-onchain-introduction-native/test.png)
 
 ## Useful Resources
 
