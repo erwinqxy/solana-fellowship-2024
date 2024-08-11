@@ -8,11 +8,25 @@ With the anchor framework, build an asset manager’s vault, where customers can
 
 #### Program Derived Addresses (PDA)
 
-A Program Derived Address (PDA) is a special type of account in Solana that only your program can control. By using a PDA, you can make sure that only the program (and not the vault manager or anyone else) can move the funds.
+A Program Derived Address (PDA) is a special type of account in Solana that only your program can control.
+
+- PDAs are addresses derived deterministically using a combination of user-defined seeds, a bump seed, and a program's ID.
+- PDAs are addresses that fall off the Ed25519 curve and have no corresponding private key.
+
+ By using a PDA, you can make sure that only the program (and not the vault manager or anyone else) can move the funds.
+
+![pda](/s3-onchain-introduction/images/pda.png)
+
+Useful resource here: https://solana.com/docs/core/pda
 
 #### Cross-Program Invocation (CPI)
 
 Cross-Program Invocation (CPI) allows your program to call other Solana programs, like the SPL token program. This is useful when managing deposits and withdrawals securely.
+
+![cpi](/s3-onchain-introduction/images/cpi.png)
+
+
+Useful resource here: https://solana.com/docs/core/cpi
 
 Together, PDAs and CPI enable you to create a secure vault where customers can deposit tokens, and the vault manager is restricted from withdrawing any funds.
 
