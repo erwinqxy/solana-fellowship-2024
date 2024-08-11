@@ -22,7 +22,8 @@ Creates a new account to hold SOL. This operation requires:
 
 - Payer Account: The account funding the creation of the new account.
 - New Account: The account being created.
-- Transaction signature reference: https://explorer.solana.com/tx/3qzpu5eZ5EpUUzQe48icM6AB5YuxPbdCN1AiGCC6GDsAtRQRAABsTZf4Uq2Zcr5xF53Vvi7WkjAzS9UanNs89wHb?cluster=devnet 
+
+Transaction signature for reference: https://explorer.solana.com/tx/3qzpu5eZ5EpUUzQe48icM6AB5YuxPbdCN1AiGCC6GDsAtRQRAABsTZf4Uq2Zcr5xF53Vvi7WkjAzS9UanNs89wHb?cluster=devnet 
 
 ![init-acc](/s4-onchain-introduction-native/images/init-account.png)
 
@@ -33,7 +34,8 @@ Transfers SOL from the payer account to the initialized account. This operation 
 
 - Payer Account: The account from which SOL will be deducted.
 - Deposit Account: The account receiving the SOL.
-- Transaction signature reference: https://explorer.solana.com/tx/HsBi76aHUyPNB3Rs7jZHBGcy9ix5X3FySBSye2PwE2F6KNbi5Uk97n7CGyojT6skiL98ZGcT1677kxp3BC3G1rT?cluster=devnet
+
+Transaction signature for reference: https://explorer.solana.com/tx/HsBi76aHUyPNB3Rs7jZHBGcy9ix5X3FySBSye2PwE2F6KNbi5Uk97n7CGyojT6skiL98ZGcT1677kxp3BC3G1rT?cluster=devnet
 
 ![deposit-sol](/s4-onchain-introduction-native/images/deposit-sol.png)
 
@@ -43,7 +45,8 @@ Withdraws 10% of the deposited SOL from the deposit account to the payer account
 
 - Payer Account: The account receiving the withdrawn SOL.
 - Deposit Account: The account from which SOL will be withdrawn.
-- Transaction signature reference: https://explorer.solana.com/tx/TVvcmV8tdyAP9gwXAzEsKSnJoEjsBPGE5Nmg2s8KK59vkiRR2hicaFJ49pUDji2wYAD6qzXngSZ9Rhsx8Ab3fZa?cluster=devnet 
+
+Transaction signature for reference: https://explorer.solana.com/tx/TVvcmV8tdyAP9gwXAzEsKSnJoEjsBPGE5Nmg2s8KK59vkiRR2hicaFJ49pUDji2wYAD6qzXngSZ9Rhsx8Ab3fZa?cluster=devnet 
 
 ![witihdrawl-sol](/s4-onchain-introduction-native/images/withdraw-sol.png)
 
