@@ -1,10 +1,8 @@
 # s2-token-program
 
-Build a web UI that can handle creation of a token, it's mint, transfer of that token, burning the token supply, and delegation the ata of this token to another public key.
+Build a web UI that can handle creation of a token, it's mint, transfer of that token, burning the token supply, and delegation the ata of this token to another public key. [Watch a quick demo here!](https://www.youtube.com/watch?v=9hHeW2GCR9w)
 
 ![home](./public/home.png)
-
-[Watch a quick demo here!](https://www.youtube.com/watch?v=9hHeW2GCR9w)
 
 ## Getting Started
 
