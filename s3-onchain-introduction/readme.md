@@ -4,9 +4,16 @@
 
 With the anchor framework, build an asset manager’s vault, where customers can deposit SPL tokens of their choice. The vault manager should not be able to withdraw the vault’s funds.
 
-### Main Teachings
+## Deployed Program
 
-#### Program Derived Addresses (PDA)
+The Solana program is deployed on the Devnet cluster. You can interact with the deployed program and view transactions at the following link:
+
+- Program Address: [8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn](https://explorer.solana.com/address/8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn?cluster=devnet)
+
+  
+## Main Learnings 
+
+### Program Derived Addresses (PDA)
 
 A Program Derived Address (PDA) is a special type of account in Solana that only your program can control.
 
@@ -19,7 +26,7 @@ A Program Derived Address (PDA) is a special type of account in Solana that only
 
 Useful resource here: https://solana.com/docs/core/pda
 
-#### Cross-Program Invocation (CPI)
+### Cross-Program Invocation (CPI)
 
 Cross-Program Invocation (CPI) allows your program to call other Solana programs, like the SPL token program. This is useful when managing deposits and withdrawals securely.
 
@@ -30,11 +37,6 @@ Useful resource here: https://solana.com/docs/core/cpi
 
 Together, PDAs and CPI enable you to create a secure vault where customers can deposit tokens, and the vault manager is restricted from withdrawing any funds.
 
-## Deployed Program
-
-The Solana program is deployed on the Devnet cluster. You can interact with the deployed program and view transactions at the following link:
-
-- Program Address: [8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn](https://explorer.solana.com/address/8TYpZMoJYfSJQ466jNNs9UigJZCrYauvJVjCz5nEpvDn?cluster=devnet)
 
 ## Functionality
 
