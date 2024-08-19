@@ -34,7 +34,7 @@ Write a simple blog, or a README about the issues and how to fix them in the Anc
 - Issue: While not a critical vulnerability in this example, storing long strings in the name field can become expensive on-chain.
 - Fix: Consider alternative storage solutions for user names if they are expected to be lengthy. You could explore storing them off-chain or using a more space-efficient encoding.
 
-### 6. Proper Error Handling:
+### 6. Should Use Proper Error Handling:
 
 - Issue: Ensure that all potential error conditions are covered.
 - Fix: Define and use appropriate error codes in MyError to handle different scenarios.
