@@ -13,11 +13,11 @@ As I wanted to focus on the solana technologies and not be overwhelmed by mobile
 Compressed NFTs (cNFTs) use state compression and concurrent Merkle trees to reduce storage costs. Compressed NFTs are 2,400-24,000x cheaper than their uncompressed counterparts, while still retaining identical structures.
 
 
-## Demo 
+## Demo
 
 Here is a demo of the app that was built. [Youtube Demo](https://www.youtube.com/embed/eUQxlx4phcQ)
 
-![demo](./images/nft-mobile-demo.gif)
+[![Demo](https://img.youtube.com/vi/eUQxlx4phcQ/0.jpg)](https://www.youtube.com/watch?v=eUQxlx4phcQ)
 
 ## The NFT that was minted
 
