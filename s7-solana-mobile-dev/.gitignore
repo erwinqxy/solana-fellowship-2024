@@ -1,0 +1,57 @@
+./build/*
+# Kotlin specific
+*.iml
+.idea/
+.gradle/
+build/
+out/
+
+# Android specific
+*.apk
+*.ap_
+*.dex
+*.class
+*.jar
+*.war
+*.ear
+*.class
+*.so
+*.swp
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (store your local settings)
+local.properties
+
+# Dependency directories
+/.idea/libraries
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/dictionaries
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/caches/
+/.idea/modules/
+.idea/vcs.xml
+
+# User-specific files
+*.sublime-workspace
+*.sublime-project
+
+# Android Studio generated files
+*.android/
+*.androidstudio/
+captures/
+.externalNativeBuild/
+navigation.json
+
+# Mac OS files
+.DS_Store
+
+# Other
+*.log
+*.keystore
+*.key

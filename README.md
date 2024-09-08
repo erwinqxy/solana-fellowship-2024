@@ -2,13 +2,6 @@
 
 Solana Summer Fellowship 2024 A hands on 8-week program for the best developers to learn building on Solana. More information here: https://solana.com/solana-fellowship.
 
-# s6-solana-pay
-
-Exercise: Build a Point-Of-Sale Web UI for adding products and checking out with Solana Pay. The payment confirmation should be displayed after checkout.
-
-<https://pitch.com/v/s6---solana-pay-9vy8nr/35faffaf-fcbe-419f-b279-d9cdfb26fd8b>
-
-
 ## Modules
 
 - [Module 1: Introduction to Solana Wallet [cli wallet]](https://github.com/erwinqxy/solana-fellowship-2024/tree/main/s1-introduction)
@@ -17,3 +10,4 @@ Exercise: Build a Point-Of-Sale Web UI for adding products and checking out with
 - [Module 4: On-chain Introduction Native [Native]](https://github.com/erwinqxy/solana-fellowship-2024/tree/main/s4-onchain-introduction-native)
 - [Module 5: Introduction to Program Security [Security]](https://github.com/erwinqxy/solana-fellowship-2024/tree/main/s5-introduction-to-program-security)
 - [Module 6: Solana Pay [sol pay]](https://github.com/erwinqxy/solana-fellowship-2024/tree/main/s6-solana-pay)
+- [Module 7: Solana Mobile Dev [sol mobile]](https://github.com/erwinqxy/solana-fellowship-2024/tree/main/s7-solana-mobile-dev)
