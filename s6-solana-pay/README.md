@@ -6,7 +6,9 @@ Build a Point-Of-Sale Web UI for adding products and checking out with Solana Pa
 
 ## Demo 
 
-![Alt Text](./images/demo.gif)
+Youtube video [here](https://www.youtube.com/watch?v=9Wenb5sl65g)
+
+[![Demo](https://img.youtube.com/vi/9Wenb5sl65g/0.jpg)](https://www.youtube.com/watch?v=9Wenb5sl65g)
 
 
 ## To Set Up
