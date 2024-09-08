@@ -15,12 +15,14 @@ Compressed NFTs (cNFTs) use state compression and concurrent Merkle trees to red
 
 ## Demo 
 
-Here is a demo of the app that was built.
+Here is a demo of the app that was built. [Youtube Demo](https://www.youtube.com/embed/eUQxlx4phcQ)
 
-| YouTube Video                                                                 | Image                                     |
-|-------------------------------------------------------------------------------|--------------------------------------------|
-| <iframe width="100%" height="315" src="https://www.youtube.com/embed/eUQxlx4phcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> | <img src="./images/1.png" alt="demo2" width="100%" /> |
+<div style="display: flex; justify-content: space-between; align-items: center;">
 
+<img src="./images/nft-mobile-demo.gif" alt="demo2" style="width: 45%;" />
+<img src="./images/1.png" alt="demo2" style="width: 45%;" />
+
+</div>
 
 ## The NFT that was minted
 
