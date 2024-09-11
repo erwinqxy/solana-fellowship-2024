@@ -1,0 +1,12 @@
+{
+  "name": "EQ #1",
+  "symbol": "EQ",
+  "description": "Social Media 2024",
+  "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB9ukRYgVhMH1WzWFDNh4M5tVXgqpy4Y9yuw&s",
+  "external_url": "https://erwinquek.vercel.app/",
+  "attributes": [
+    { "trait_type": "Linkedin", "value": "https://www.linkedin.com/in/erwinqxy" },
+    { "trait_type": "Github", "value": "https://github.com/erwinqxy" }
+  ],
+  "collection": { "name": "ErwinQ's Social", "family": "ErwinQ's Social" }
+}

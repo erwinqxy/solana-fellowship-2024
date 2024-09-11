@@ -1,0 +1,19 @@
+{
+  "name": "ErwinQ's Social",
+  "symbol": "EQ",
+  "description": "Social Media Collection",
+  "seller_fee_basis_points": 0,
+  "image": "https://avatars.githubusercontent.com/u/72030222?v=4",
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "https://avatars.githubusercontent.com/u/72030222?v=4"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      { "address": "6JRwH3AvKZDcA3AkydRa2pgRDfEzGEQ1TCkBPRsj5Wbp", "share": 100 }
+    ]
+  }
+}
