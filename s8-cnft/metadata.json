@@ -1,0 +1,15 @@
+{
+  "name": "Erwin's cNFT",
+  "description": "My social details",
+  "image": "https://avatars.githubusercontent.com/u/72030222?v=4",
+  "attributes": [
+    {
+      "trait_type": "LinkedIn",
+      "value": "https://linkedin.com/in/erwinqxy"
+    },
+    {
+      "trait_type": "GitHub",
+      "value": "https://github.com/erwinqxy"
+    }
+  ]
+}
