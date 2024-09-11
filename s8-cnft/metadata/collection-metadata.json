@@ -1,14 +1,14 @@
 {
   "name": "ErwinQ's Social",
-  "symbol": "EQ",
+  "symbol": "EQXX",
   "description": "Social Media Collection",
   "seller_fee_basis_points": 0,
-  "image": "https://avatars.githubusercontent.com/u/72030222?v=4",
+  "image": "https://indigo-genetic-grouse-637.mypinata.cloud/ipfs/QmU8uiqNPkanQCCYZQtYzKxHqcHeJvYQFzDyvuj5tAHaPz",
   "properties": {
     "files": [
       {
         "type": "image/png",
-        "uri": "https://avatars.githubusercontent.com/u/72030222?v=4"
+        "uri": "https://indigo-genetic-grouse-637.mypinata.cloud/ipfs/QmU8uiqNPkanQCCYZQtYzKxHqcHeJvYQFzDyvuj5tAHaPz"
       }
     ],
     "category": "image",

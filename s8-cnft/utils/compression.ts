@@ -30,7 +30,7 @@ import {
 } from '@metaplex-foundation/mpl-token-metadata';
 
 // import local helper functions
-import { explorerURL, extractSignatureFromFailedTransaction } from '@/utils/helpers';
+import { explorerURL, extractSignatureFromFailedTransaction } from './helpers';
 
 /*
   Helper function to create a merkle tree on chain, including allocating 

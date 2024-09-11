@@ -40,13 +40,13 @@ import {
   numberFormatter,
   printConsoleSeparator,
   savePublicKeyToFile,
-} from '@/utils/helpers';
+} from '../utils/helpers';
 
 // import custom helpers to mint compressed NFTs
-import { createCollection, createTree, mintCompressedNFT } from '@/utils/compression';
+import { createCollection, createTree, mintCompressedNFT } from '../utils/compression';
 
 // local import of the connection wrapper, to help with using the ReadApi
-import { WrapperConnection } from '@/ReadApi/WrapperConnection';
+import { WrapperConnection } from '../ReadApi/WrapperConnection';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -195,9 +195,9 @@ let initBalance: number, balance: number;
   const collectionMetadataV3: CreateMetadataAccountArgsV3 = {
     data: {
       name: "Erwin's cNFT Collection",
-      symbol: 'EQ',
+      symbol: 'EQXX',
       // specific json metadata for the collection
-      uri: 'https://supersweetcollection.notarealurl/collection.json',
+      uri: 'https://indigo-genetic-grouse-637.mypinata.cloud/ipfs/QmNSkAWvEuDgeUfnz419SuU66rahNTj9iKn3YBodBSJiMo',
       sellerFeeBasisPoints: 100,
       creators: [
         {
@@ -240,10 +240,10 @@ let initBalance: number, balance: number;
   */
 
   const compressedNFTMetadata: MetadataArgs = {
-    name: 'NFT Name',
+    name: "ErwinQ 2024 #1",
     symbol: collectionMetadataV3.data.symbol,
     // specific json metadata for each NFT
-    uri: 'https://supersweetcollection.notarealurl/token.json',
+    uri: 'https://indigo-genetic-grouse-637.mypinata.cloud/ipfs/QmV6RbX9bLDP45mnq3eBFtokoesq2J3e5mbGQvL4qawVYf',
     creators: [
       {
         address: payer.publicKey,

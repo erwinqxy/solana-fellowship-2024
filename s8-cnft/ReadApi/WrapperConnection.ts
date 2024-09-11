@@ -22,7 +22,7 @@ import type {
   GetAssetsByGroupRpcInput,
   ReadApiAsset,
   ReadApiAssetList,
-} from '@/ReadApi/types';
+} from './types';
 
 type JsonRpcParams<ReadApiMethodParams> = {
   method: string;
